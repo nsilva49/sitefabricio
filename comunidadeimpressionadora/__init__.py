@@ -11,11 +11,19 @@ app = Flask(__name__)  # Inicializa a aplicação Flask
 #.parent: acessa a pasta onde esse arquivo está
 #/"comunidade.db": junta o nome do arquivo do banco de dados ao caminho da pasta
 dp_path =Path(__file__).parent/"comunidade.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{dp_path}'  # Caminho do banco de dados
+
+#URL_PÚBLICA_MYSQL
+if os.getenv("URL_MYSQL"):
+    app.config['SQLALCHEMY_DATABASE_URI']=os.getenv("URL_MYSQL")
+
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{dp_path}'  # Caminho do banco de dados
 
 
 # Chave secreta
 app.config['SECRET_KEY'] = '20c4aa37d6cc6be00f8e19695023561d'
+
+
 
 # Inicializa o banco de dados com as configurações já definidas
 database = SQLAlchemy(app)

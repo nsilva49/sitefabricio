@@ -1,0 +1,53 @@
+
+{#Comentário Jinja2- {% estrutura for %}  {% %} para fazer uma estrutura for, if etc.
+    <p>{{ variavel python }}</p> -  {{ }} se for uma variável python, pode fazer um paragrafo para cada usuário
+    <hr> para colocar uma linha entre cada usuário #}
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="container">
+    <h1>Usuários</h1>
+    {% for usuario in lista_usuarios %}
+        <div class="container mt-5 d-flex flex-column align-items-center">
+            <div class="d-flex justify-content-center mt-5">
+                <div class="d-flex align-items-center">
+                    <div class="image pe-2">
+                        <img src="{{ url_for('static',filename='fotos_perfil/{}'.format(usuario.foto_perfil)) }}" class="rounded" width="200">
+                    </div>
+                    <div class="ml-3 w-100">
+                        <h4 class="mb-0 mt-0">{{ usuario.username }}</h4>
+                        <span>{{ usuario.email }}</span>
+                        <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                            <div class="d-flex flex-column">
+                                {% if 'Não Informado' in usuario.cursos %}
+                                    <span class="articles">Cursos</span>
+                                    <span class="number1">0</span>
+                                {% else %}
+                                    <span class="articles">Cursos</span>
+                                    <span class="number1">{{ usuario.cursos.count(';') + 1 }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span class="rating">Posts</span>
+                                <span class="number3">{{ usuario.contar_posts() }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-5 d-flex flex-column align-items-center">
+            <div class="col col-4" style="text-align: center;">
+                <strong>Cursos</strong><br>
+                {% for curso in usuario.cursos.split(';') %}
+                    <button type="button" class="btn btn-success mt-2" disabled>{{ curso }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="row mt-5"></div>
+{% endblock %}

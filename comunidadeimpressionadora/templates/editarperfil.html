@@ -1,0 +1,72 @@
+{#Foi retirado o w-100 do final do codigo para que o botão Confirmar Edição não ocupe o espaço todo
+ {{ form_editar.botao_submit_editarperfil(class="btn btn-primary mt-4") }}
+Toda vez que estiver subido um arquivo dentro de um formulário deverá acrescentar o parametro dentro o method='POST'
+ enctype="multipart/form-data"#}
+
+{% extends 'perfil.html' %}'
+
+{% block form_editar_perfil %}
+
+<!-- Card de perfil -->
+
+    <div class="container">
+        <hr>
+        <div class="row">
+            <div class="col">
+                <form method="POST" action="" class="border p-4 w-100" enctype="multipart/form-data" style="max-width: 6000px; text-align: left;">
+                    {{ form_editar.csrf_token }}
+                    <legend>Editar Perfil</legend>
+                    <fieldset>
+                        <div class="form-group">
+                            {{ form_editar.username.label(class="form-control-label") }}
+                            {% if form_editar.username.errors %}
+                                {{ form_editar.username(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for erro in form_editar.username.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form_editar.username(class="form-control") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group mt-3">
+                            {{ form_editar.email.label(class="form-control-label") }}
+                            {% if form_editar.email.errors %}
+                                {{ form_editar.email(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for erro in form_editar.email.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form_editar.email(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group mt-3">
+                            {{ form_editar.foto_perfil.label }}
+                            {{ form_editar.foto_perfil(class="form-control-file") }}
+                            {% if form_editar.foto_perfil.errors %}
+                                {% for erro in form_editar.foto_perfil.errors %}
+                                    <span class="text-danger">{{ erro }}</span><br>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <hr>
+                        <p>Cursos</p>
+                        {% for campo in form_editar %}
+                            {% if 'curso_' in campo.name %}
+                                <div class="form-group form-check">
+                                    {{ campo.label(class="form-check-label") }}
+                                    {{ campo(class="form-check-input") }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </fieldset>
+                    {{ form_editar.botao_submit_editarperfil(class="btn btn-primary mt-4") }}
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

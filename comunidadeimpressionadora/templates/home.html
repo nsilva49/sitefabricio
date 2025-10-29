@@ -1,0 +1,46 @@
+
+<!-- Obs:. Para forçar atualização da página de um site crtl +f5
+ <div class="classe1">  # formata o que estiver dentro do div
+ <body> # insere o que deseja que apareça -->
+{#
+href="{{ url_for('exibir_post', post_id=post.id) }}"
+→ Chama a função 'exibir_post' definida nas rotas do Flask.
+→ Passa o parâmetro 'post_id' com o valor do ID do post atual.
+→ Esse ID vem da classe Post no models.py.
+→ O resultado é um link para a página específica do post.
+ <a style="text-decoration:none" href="{{ url_for('exibir_post', post_id=post.id) }}"><h3>{{ post.titulo }}</h3></a>
+                <p>{{ post.corpo }}</p>
+#}
+
+{% extends 'base.html' %}
+
+{% block content %}
+   <div class="container mt-3">
+    <h1 style="color: blue">Em nome de Jesus, irei aprender Python!</h1>
+    <h2>Com Deus, tudo é possível.</h2>
+    <hr>
+    {% for post in posts %}
+        <div class="row border rounded mb-4 p-3 meupost align-items-start">
+            <div class="col-md-2 text-center">
+                <div class="image pe-2">
+                    <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(post.autor.foto_perfil)) }}" class="rounded" width="200">
+                </div>
+                <strong>{{ post.autor.username }}</strong>
+
+                <div class="row justify-content-start">
+                    {% for curso in post.autor.cursos.split(';') %}
+                        <button type="button" class="btn btn-success mt-2" disabled>{{ curso }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col col-9">
+                <a style="text-decoration: none" href="{{ url_for('exibir_post', post_id=post.id) }}"><h3>{{ post.titulo }}</h3></a>
+
+                <p>{{ post.corpo }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+

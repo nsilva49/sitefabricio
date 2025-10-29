@@ -4,6 +4,7 @@ from pathlib import Path
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 import sqlalchemy
+import os
 
 app = Flask(__name__)  # Inicializa a aplicação Flask
 
@@ -47,3 +48,4 @@ else:
 
 # Importa as rotas (deve ser feito após a criação do app e do banco)
 from comunidadeimpressionadora import routes
+

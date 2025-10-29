@@ -13,7 +13,8 @@ app = Flask(__name__)  # Inicializa a aplicação Flask
 dp_path =Path(__file__).parent/"comunidade.db"
 
 #URL_PÚBLICA_MYSQL
-if os.getenv("URL_MYSQL"):
+#"URL_MYSQL"
+if os.getenv("URL_PÚBLICA_MYSQL"):
     app.config['SQLALCHEMY_DATABASE_URI']=os.getenv("URL_MYSQL")
 
 else:
@@ -41,3 +42,4 @@ login_manager.login_message_category = 'alert-info' # Configura a mensagem de al
 
 # Importa as rotas (deve ser feito após a criação do app e do banco)
 from comunidadeimpressionadora import routes
+

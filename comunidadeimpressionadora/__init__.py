@@ -14,8 +14,8 @@ dp_path =Path(__file__).parent/"comunidade.db"
 
 #URL_PÚBLICA_MYSQL
 #"URL_MYSQL"
-if os.getenv("DATABASE_PUBLIC_URL"):
-    app.config['SQLALCHEMY_DATABASE_URI']=os.getenv("DATABASE_PUBLIC_URL")
+if os.getenv("DATABASE_URL"):
+    app.config['SQLALCHEMY_DATABASE_URI']=os.getenv("DATABASE_URL")
 
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{dp_path}'  # Caminho do banco de dados
@@ -42,6 +42,7 @@ login_manager.login_message_category = 'alert-info' # Configura a mensagem de al
 
 # Importa as rotas (deve ser feito após a criação do app e do banco)
 from comunidadeimpressionadora import routes
+
 
 
 

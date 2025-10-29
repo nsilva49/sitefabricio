@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+import sqlalchemy
 
 app = Flask(__name__)  # Inicializa a aplicação Flask
 
@@ -12,8 +13,7 @@ app = Flask(__name__)  # Inicializa a aplicação Flask
 #/"comunidade.db": junta o nome do arquivo do banco de dados ao caminho da pasta
 dp_path =Path(__file__).parent/"comunidade.db"
 
-#URL_PÚBLICA_MYSQL
-#"URL_MYSQL"
+
 if os.getenv("DATABASE_URL"):
     app.config['SQLALCHEMY_DATABASE_URI']=os.getenv("DATABASE_URL")
 
@@ -34,15 +34,16 @@ bcrypt = Bcrypt(app) # criptografar senha
 login_manager = LoginManager(app) #Associa essa instância ao seu aplicativo Flask (app), permitindo que o
 # Flask-Login controle o login dos usuários.
 
-login_manager.login_view = 'login' # A linha login_manager.login_view = 'login' define que, se um usuário
-# não autenticado tentar acessar uma rota protegida por @login_required, ele será redirecionado para
-# a rota chamada 'login'.
-
-login_manager.login_message_category = 'alert-info' # Configura a mensagem de alerta caso não esteja logado
+from comunidadeimpressionadora import models
+engine = sqlalchemy.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+inspector = sqlalchemy.inspect(engine)
+if not inspector.has_table('usuario'):
+    with app.app_context():
+        database.drop_all()
+        database.create_all()
+        print('Base de dados criada')
+else:
+    print('Base de dados existente')
 
 # Importa as rotas (deve ser feito após a criação do app e do banco)
 from comunidadeimpressionadora import routes
-
-
-
-
